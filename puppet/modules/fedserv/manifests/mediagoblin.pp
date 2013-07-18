@@ -10,8 +10,6 @@ class fedserv::mediagoblin {
               'python-lxml',
               'python-imaging',
               'python-virtualenv',
-              'postgresql',
-              'postgresql-client',
               'python-psycopg2',
             ]:
     ensure => installed,
