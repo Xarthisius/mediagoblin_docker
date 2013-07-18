@@ -56,6 +56,7 @@ class fedserv::mediagoblin {
     group  => 'mediagoblin',
     source => 'puppet:///modules/fedserv/mediagoblin/db_update.sh',
     mode   => 0755,
+    notify => Exec['db_update'],
   } ->
   exec { 'db_update':
     path    => '/bin:/usr/bin:/usr/local/bin',
@@ -63,6 +64,7 @@ class fedserv::mediagoblin {
     cwd     => '/srv/mediagoblin/mediagoblin',
     command => '/srv/mediagoblin/db_update.sh',
     logoutput => true,
+    refreshonly => true,
   } ->
   anchor { 'mediagoblin::end': }
 
