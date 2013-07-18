@@ -1,8 +1,5 @@
 #!/bin/bash
 
-id
-env
-
 # clone repo
 git clone git://gitorious.org/mediagoblin/mediagoblin.git
 cd mediagoblin
