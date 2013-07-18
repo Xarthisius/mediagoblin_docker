@@ -1,0 +1,31 @@
+#!/bin/bash
+
+ARGS=$(getopt -o "vdr" -l "verbose,debug,run" -n "run" -- "$@")
+
+if [ $? -ne 0 ]; then
+    exit 1;
+fi
+
+PUPPET_ARGS=""
+REALLY_RUN="no"
+
+eval set -- "$ARGS"
+while true; do
+    case "$1" in
+        -v|--verbose) PUPPET_ARGS="$PUPPET_ARGS --verbose"; shift;;
+        -d|--debug)   PUPPET_ARGS="$PUPPET_ARGS --debug"; shift;;
+        -r|--run)     REALLY_RUN="yes"; shift;;
+        --) shift; break;;
+    esac
+done
+
+if [ "$REALLY_RUN" = "no" ]; then
+    PUPPET_ARGS="$PUPPET_ARGS --noop"
+fi
+
+RUNDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+COMMAND="puppet apply --modulepath=$RUNDIR/modules $RUNDIR/init.pp $PUPPET_ARGS"
+
+echo $COMMAND
+sudo $COMMAND
