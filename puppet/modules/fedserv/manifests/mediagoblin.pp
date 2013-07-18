@@ -33,7 +33,7 @@ class fedserv::mediagoblin {
     source => 'puppet:///modules/fedserv/mediagoblin/env_setup.sh',
     mode   => 0755,
   } ->
-  exec { 'setup_environment':
+  exec { 'setup_mediagoblin_environment':
     path    => '/bin:/usr/bin:/usr/local/bin',
     user    => 'mediagoblin',
     cwd     => '/srv/mediagoblin',

@@ -4,5 +4,5 @@ class fedserv {
     
   include fedserv::mediagoblin
   include fedserv::tentio
-  #include fedserv::pumpio
+  include fedserv::pumpio
 }

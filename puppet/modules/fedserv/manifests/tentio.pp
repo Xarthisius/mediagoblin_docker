@@ -10,7 +10,7 @@ class fedserv::tentio {
               'libxml2-dev',
               'libxslt1-dev',
               'build-essential',
-              'nodejs',
+              #'nodejs',
             ]:
     ensure => installed,
   } ->
