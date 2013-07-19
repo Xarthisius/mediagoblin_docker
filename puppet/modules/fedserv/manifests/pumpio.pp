@@ -17,6 +17,13 @@ class fedserv::pumpio {
     managehome => true,
     shell      => '/bin/bash',
   } ->
+  file { '/home/pumpio/.pump.io.json':
+    ensure => present,
+    owner  => 'pumpio',
+    group  => 'pumpio',
+    source => 'puppet:///modules/fedserv/pumpio/pump.io.json',
+    mode   => 0644,
+  } ->
   file { '/srv/pumpio':
     ensure => directory,
     owner => 'pumpio',
