@@ -1,6 +1,19 @@
 class fedserv::pumpio {
+
+  # sudo add-apt-repository ppa:chris-lea/node.js -y
   
   anchor { 'pumpio::start': } ->
+  exec { 'configure_node_repo':
+    command => 'add-apt-repository ppa:chris-lea/node.js -y',
+    path    => '/bin:/usr/bin:/usr/local/bin',
+    creates => '/etc/apt/sources.list.d/chris-lea-node_js-raring.list',
+    notify  => Exec['aptitude_update'],
+  } ->
+  exec { 'aptitude_update':
+    command     => 'aptitude update',
+    path        => '/bin:/usr/bin:/usr/local/bin',
+    refreshonly => true,
+  } ->
   package { [
               'nodejs',
             ]:
