@@ -4,4 +4,5 @@
 git clone https://github.com/tent/tentd-admin.git tentd-admin
 cd tentd-admin
 
-bundle install
+# This command fails for now...
+#bundle install
