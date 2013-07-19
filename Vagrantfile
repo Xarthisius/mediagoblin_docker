@@ -9,6 +9,8 @@ Vagrant.configure("2") do |config|
 
   # mediagoblin
   config.vm.network :forwarded_port, guest: 6543, host: 6543
+  # pump.io
+  config.vm.network :forwarded_port, guest: 8000, host: 8000
 
   #config.vm.network :public_network
   config.ssh.forward_agent = true

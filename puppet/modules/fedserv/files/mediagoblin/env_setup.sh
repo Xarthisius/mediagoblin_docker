@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# die on any error
+set -e
+
 # clone repo
 git clone git://gitorious.org/mediagoblin/mediagoblin.git
 cd mediagoblin
