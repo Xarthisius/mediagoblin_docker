@@ -4,6 +4,8 @@ run     apt-get install --force-yes -y git-core python python-dev python-lxml py
 run     mkdir /srv/mediagoblin
 add     ./env_setup.sh /srv/mediagoblin/env_setup.sh
 run     bash -c "cd /srv/mediagoblin; chmod +x env_setup.sh; ./env_setup.sh"
+add     ./email_logging.patch /srv/mediagoblin/email_logging.patch
+run     bash -c "cd /srv/mediagoblin/mediagoblin; patch -p0 < ../email_logging.patch"
 add     ./db_setup.sh /srv/mediagoblin/db_setup.sh
 run     bash -c "cd /srv/mediagoblin; chmod +x db_setup.sh; ./db_setup.sh"
 add     ./mediagoblin_local.ini /srv/mediagoblin/mediagoblin/mediagoblin_local.ini
