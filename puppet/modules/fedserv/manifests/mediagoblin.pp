@@ -5,6 +5,7 @@ class fedserv::mediagoblin {
   anchor { 'mediagoblin::start': } ->
   package { [
               'git-core',
+              'nginx',
               'python',
               'python-dev',
               'python-lxml',
@@ -27,7 +28,7 @@ class fedserv::mediagoblin {
     group  => 'mediagoblin',
   } ->
   file { '/srv/mediagoblin/env_setup.sh':
-    ensure => directory,
+    ensure => present,
     owner  => 'mediagoblin',
     group  => 'mediagoblin',
     source => 'puppet:///modules/fedserv/mediagoblin/env_setup.sh',
@@ -44,14 +45,14 @@ class fedserv::mediagoblin {
     ],
   } ->
   file { '/srv/mediagoblin/mediagoblin/mediagoblin_local.ini':
-    ensure => directory,
+    ensure => present,
     owner  => 'mediagoblin',
     group  => 'mediagoblin',
     source => 'puppet:///modules/fedserv/mediagoblin/mediagoblin_local.ini',
     mode   => 0644,
   } ->
   file { '/srv/mediagoblin/db_update.sh':
-    ensure => directory,
+    ensure => present,
     owner  => 'mediagoblin',
     group  => 'mediagoblin',
     source => 'puppet:///modules/fedserv/mediagoblin/db_update.sh',
@@ -65,6 +66,52 @@ class fedserv::mediagoblin {
     command => '/srv/mediagoblin/db_update.sh',
     logoutput => true,
     refreshonly => true,
+  } ->
+  file { '/etc/init.d/mediagoblin-paster':
+    ensure => present,
+    owner  => 'root',
+    group  => 'root',
+    source => 'puppet:///modules/fedserv/mediagoblin/mediagoblin-paster',
+    mode   => 0755,
+  } ->
+  service { 'mediagoblin-paster':
+    ensure => running,
+    enable => true,
+    provider => debian,
+  } ->
+  file { '/etc/init.d/mediagoblin-celeryd':
+    ensure => present,
+    owner  => 'root',
+    group  => 'root',
+    source => 'puppet:///modules/fedserv/mediagoblin/mediagoblin-celeryd',
+    mode   => 0755,
+  } ->
+  service { 'mediagoblin-celeryd':
+    ensure => running,
+    enable => true,
+    provider => debian,
+  } ->
+  file { '/etc/nginx/sites-enabled/default':
+    ensure => absent,
+  } ->
+  file { '/etc/nginx/sites-enabled/mediagoblin.conf':
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root',
+    source => 'puppet:///modules/fedserv/mediagoblin/nginx.conf',
+    mode   => 0755,
+  } ->
+  file { '/srv/mediagoblin/mediagoblin/user_dev/':
+    ensure => directory,
+    owner => 'mediagoblin',
+    group  => 'mediagoblin',
+    mode   => 0711,
+  } ->
+  service { 'nginx':
+    ensure     => running,
+    enable     => true,
+    hasstatus  => true,
+    hasrestart => true,
   } ->
   anchor { 'mediagoblin::end': }
 
