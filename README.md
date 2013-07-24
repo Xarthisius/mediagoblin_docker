@@ -66,6 +66,8 @@ If the VM spin up stalls before Vagrant can provision it, just run `vagrant halt
 
 ## Puppet
 
+This has only been tested on Ubuntu Raring (13.04).
+
 To run the [Puppet](https://puppetlabs.com/) code directly on a machine or VM that has already been created:
 
     # aptitude install git puppet -y
@@ -74,7 +76,7 @@ To run the [Puppet](https://puppetlabs.com/) code directly on a machine or VM th
     # git submodule update --init
     # ./puppet/run -r
 
-This has only been tested on Ubuntu Raring (13.04).
+Look in `/var/log/mediagoblin/mediagoblin-paster.log` for the MediaGoblin log.  This is necessary to view the account verification link.
 
 ## Docker
 
