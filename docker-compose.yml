@@ -1,0 +1,11 @@
+mediagoblin:
+  build: .
+  links:
+    - db:db
+  ports:
+    - "6543:6543"
+
+db:
+  image: postgres
+  #volumes:
+  #  - db-data/:/var/lib/postgresql/data

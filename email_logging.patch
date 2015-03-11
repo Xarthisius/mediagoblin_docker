@@ -1,0 +1,37 @@
+diff -Naur mediagoblin/tools/mail.py mediagoblin/tools/mail.py
+--- mediagoblin/tools/mail.py
++++ mediagoblin/tools/mail.py
+@@ -18,11 +18,14 @@
+ 
+ import six
+ import smtplib
++import logging
+ import sys
+ from mediagoblin import mg_globals, messages
+ from mediagoblin._compat import MIMEText
+ from mediagoblin.tools import common
+ 
++_log = logging.getLogger(__name__)
++
+ ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ ### Special email test stuff begins HERE
+ ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -132,12 +135,12 @@
+         EMAIL_TEST_INBOX.append(message)
+ 
+     elif mg_globals.app_config['email_debug_mode']:
+-        print("===== Email =====")
+-        print("From address: %s" % message['From'])
+-        print("To addresses: %s" % message['To'])
+-        print("Subject: %s" % message['Subject'])
+-        print("-- Body: --")
+-        print(message.get_payload(decode=True))
++        _log.info(u"===== Email =====")
++        _log.info(u"From address: %s" % message['From'])
++        _log.info(u"To addresses: %s" % message['To'])
++        _log.info(u"Subject: %s" % message['Subject'])
++        _log.info(u"-- Body: --")
++        _log.info(message.get_payload(decode=True))
+ 
+     return mhost.sendmail(from_addr, to_addrs, message.as_string())
+ 
