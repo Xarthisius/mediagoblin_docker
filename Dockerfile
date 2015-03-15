@@ -30,13 +30,13 @@ RUN     python setup.py develop
 # install flup for fcgi
 RUN     easy_install flup
 
-# Fix for bug #5065, and add option to never transcode
+# Fix for bugs #5065 and #5067
 ADD     ./skip_transcode.patch /opt/mediagoblin/skip_transcode.patch
 RUN     patch -p1 < skip_transcode.patch
 # Fix for unpatched bug
 ADD     ./file_extension.patch /opt/mediagoblin/file_extension.patch
 RUN     patch -p1 < file_extension.patch
-# Work around a bug in Gst
+# Work around a bug in Gst, mediagoblin issue #5066
 ADD     ./GstPbutils_import_workaround.patch /opt/mediagoblin/GstPbutils_import_workaround.patch
 RUN     patch -p1 < GstPbutils_import_workaround.patch
 
