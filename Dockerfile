@@ -4,7 +4,7 @@ MAINTAINER Michael Macnair
 
 # Stop lots of debconf issues, with one of these solutions:
 # ENV TERM linux
-RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+RUN     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # Install needed OS packages
 RUN     apt-get update
@@ -16,8 +16,9 @@ RUN     apt-get install --force-yes -y python-pyexiv2
 
 # Make a home for mediagoblin and clone the repo
 RUN	mkdir -p /opt/
-RUN     git clone https://gitorious.org/mediagoblin/mediagoblin.git /opt/mediagoblin
+RUN     git clone --no-checkout https://gitorious.org/mediagoblin/mediagoblin.git /opt/mediagoblin
 WORKDIR /opt/mediagoblin
+RUN     git checkout HEAD # can change HEAD to a release e.g. 0.8.0
 RUN     git submodule update --init
 
 # set up the deps and main code
@@ -29,15 +30,22 @@ RUN     python setup.py develop
 # install flup for fcgi
 RUN     easy_install flup
 
-# Patch the email code so that test emails are logged
-ADD     ./email_logging.patch /opt/mediagoblin/email_logging.patch
-RUN     patch -p0 < email_logging.patch
+# Fix for bug #5065, and add option to never transcode
+ADD     ./skip_transcode.patch /opt/mediagoblin/skip_transcode.patch
+RUN     patch -p1 < skip_transcode.patch
+# Fix for unpatched bug
+ADD     ./file_extension.patch /opt/mediagoblin/file_extension.patch
+RUN     patch -p1 < file_extension.patch
+# Work around a bug in Gst
+ADD     ./GstPbutils_import_workaround.patch /opt/mediagoblin/GstPbutils_import_workaround.patch
+RUN     patch -p1 < GstPbutils_import_workaround.patch
 
-# plugins
-RUN     git clone https://github.com/Velmont/gmg_localfiles.git ./mediagoblin/plugins/gmg_localfiles
+# Plugins
+RUN     git clone https://github.com/msm-/gmg_localfiles.git /opt/mediagoblin/mediagoblin/plugins/gmg_localfiles
 
-# Configure the database connection and create the initial tables
+# Configuration files
 ADD     ./mediagoblin_local.ini /opt/mediagoblin/mediagoblin_local.ini
+ADD     ./paste_local.ini /opt/mediagoblin/paste_local.ini
 
 # Expose the port and set the command to run
 EXPOSE  6543
