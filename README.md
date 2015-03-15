@@ -7,7 +7,7 @@ A quick way to serve up HTML5 browsing of media stored on a server.
 # Getting the container
 
 ## Pull
-    This image is not on the docker hub yet.
+This image is not on the docker hub yet.
 
 ## Clone
     $ git clone https://github.com/msm-/mediagoblin_docker.git
@@ -24,6 +24,7 @@ A quick way to serve up HTML5 browsing of media stored on a server.
 
 ## Database
 Set up the database:
+
     $ docker-compose run --rm mediagoblin gmg dbupdate
 
 If you change the database name / user / etc from the postresql docker defaults, modify the `sql_engine` entry in `mediagoblin_local.ini` appropriately.
@@ -36,6 +37,7 @@ This instance is configured to use the gmg\_localfiles plugin to serve existing 
 By default the media is served from ./media - this can be a symlink. Change this in the volume specified in `docker-compose.yml`.
 
 To perform the import run:
+
     $ docker-compose run --rm mediagoblin python -m mediagoblin.plugins.gmg_localfiles.import_files
 
 To stop using localfiles, just remove the `[[gmg_localfiles]]` entry from `mediagoblin_local.ini`, and revert the storage settings in the same file to the mediagoblin defaults.
@@ -49,9 +51,11 @@ To add additional plugins, add their dependencies to the Dockerfile, and an entr
 # Running the container
 
 Create a user:
+
     $ docker-compose run --rm mediagoblin gmg adduser --username <user> --password <password> --email <email>
 
 Run the site:
+
     $ docker-compose up
 
 # Thanks
