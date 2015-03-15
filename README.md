@@ -20,13 +20,23 @@ This image is not on the docker hub yet.
     mediagoblindocker_mediagoblin   latest              772169736ac3        4 minutes ago       882.4 MB
     postgres                        latest              0e9ef8dc211f        3 days ago          213.9 MB
 
-# Configuration
+# Running the container
 
-## Database
 Set up the database:
 
     $ docker-compose run --rm mediagoblin gmg dbupdate
 
+Create a user:
+
+    $ docker-compose run --rm mediagoblin gmg adduser --username <user> --password <password> --email <email>
+
+Run the site:
+
+    $ docker-compose up
+
+# Configuration
+
+## Database
 If you change the database name / user / etc from the postresql docker defaults, modify the `sql_engine` entry in `mediagoblin_local.ini` appropriately.
 
 The data is stored in the postgres image's volume - you can start a container with volumes-from to back it up, or remove it with `docker rm -v mediagoblindocker_db_1` to delete the data.
@@ -43,20 +53,10 @@ To perform the import run:
 To stop using localfiles, just remove the `[[gmg_localfiles]]` entry from `mediagoblin_local.ini`, and revert the storage settings in the same file to the mediagoblin defaults.
 
 ## Port
-docker-compose.yml specifies the port that the web server is exposed on.
+`docker-compose.yml` specifies the port that the web server is exposed on, 6543 by default.
 
 ## Plugins
-To add additional plugins, add their dependencies to the Dockerfile, and an entry in `mediagoblin_local.ini`. Rebuild ($ docker-compose build) and update the database ($ docker-compose run --rm mediagoblin gmg dbupdate)
-
-# Running the container
-
-Create a user:
-
-    $ docker-compose run --rm mediagoblin gmg adduser --username <user> --password <password> --email <email>
-
-Run the site:
-
-    $ docker-compose up
+To add additional plugins, add their dependencies to the Dockerfile, and an entry in `mediagoblin_local.ini`. Rebuild (`$ docker-compose build`) and update the database (`$ docker-compose run --rm mediagoblin gmg dbupdate`)
 
 # Thanks
 
