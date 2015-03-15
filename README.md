@@ -65,6 +65,7 @@ To [Mediatemple](https://mediatemple.net/), for [the original version](https://g
 # License
 
 Copyright 2015 Michael Macnair
+
 Copyright 2013 Media Temple, Inc.
 
 This work is licensed under the [MIT license](LICENSE.md).
