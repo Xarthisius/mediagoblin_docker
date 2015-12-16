@@ -9,7 +9,7 @@ mediagoblin:
     - ./media:/var/media
   environment:
     - UPLOADDIR=/var/media
-
+    - DATABASE=/var/media/files.db
 db:
   image: postgres
   volumes:
