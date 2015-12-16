@@ -44,7 +44,7 @@ RUN cd /opt && \
 
 RUN cd /tmp && \
    git clone -b mediagoblin https://github.com/Xarthisius/curldrop.git && \
-   cp /tmp/curldrop/*.py /opt/mediagoblin/ && \
+   cp /tmp/curldrop/*.py /opt/mediagoblin/  && \
    rm -rf /tmp/curldrop
 
 WORKDIR /opt/mediagoblin
@@ -61,6 +61,7 @@ ADD ./paste_local.ini /opt/mediagoblin/paste_local.ini
 ADD supervisord.conf /etc/supervisor/supervisord.conf
 ADD tasks.conf /etc/supervisor/conf.d/tasks.conf
 ADD commit.py /opt/mediagoblin/commit.py
+ADD delete.py /opt/mediagoblin/delete.py
 
 CMD ["supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
 # Expose the port and set the command to run
